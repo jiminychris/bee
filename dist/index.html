@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>Spelling Bee Training</title>
+    <link type="text/css" rel="stylesheet" href="index.css" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    </style>
+    <meta name="referrer" content="no-referrer">
+    <link rel="shortcut icon" href="cute-bee-design_25030-68435.avif">
+  </head>
+  <body>
+    <div id="signedout" hidden>
+      <input id="signin" type="button" value="Sign In">
+    </div>
+    <div id="signedin" hidden>
+      <div id="email"></div>
+      <input id="signout" type="button" value="Sign Out">
+    </div>
+    <div class="header">
+      <h1>Spelling Bee Training</h1>
+    </div>
+    <div id="attract">
+      Choose word list.
+      <div>
+        <div id="list-loader" class="lds-ring" hidden><div></div><div></div><div></div><div></div></div>
+        <div id="lists"></div>
+      </div>
+      <input id="upload" type="button" value="New word list…">
+    </div>
+    <div id="play" hidden>
+      <input id="textbox" autocorrect="off" spellcheck="false">
+      <audio id="audio"></audio>
+      <div>
+        <input id="submit" type="button" hidden>
+        <input id="repeat" type="button" value="Repeat">
+        <input id="define" type="button" value="Define">
+        <input id="restart" type="button" value="Restart">
+        <input id="refine" type="button" value="Restart with incorrect words" hidden>
+        <input id="quit" type="button" value="Quit">
+      </div>
+      <p id="progress"></p>
+      <ul id="scoreboard">
+      </ul>
+    </div>
+    <dialog id="firebaseui-auth-container"></dialog>
+    <dialog id="dialog">
+      <form method="dialog">
+        <p class="formfield">
+          <label>Name
+            <input id="dialog_name">
+          </label>
+        </p>
+        <p class="formfield">
+          <label>Words
+            <textarea id="dialog_words" rows="32" cols="52" placeholder="enter&#10;each&#10;word&#10;on&#10;its&#10;own&#10;line"></textarea>
+          </label>
+        </p>
+        <div>
+          <button value="cancel">Cancel</button>
+          <button id="save" value="default">Save</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="bottom">
+      Icon: <a href="https://www.freepik.com/free-vector/cute-bee-design_138419079.htm#query=bee%20clip%20art&position=9&from_view=keyword&track=ais&uuid=71f97eee-ca7e-4541-9fa2-b847a3c81aca">Image by grmarc</a> on Freepik
+    </div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
