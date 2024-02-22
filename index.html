@@ -1,29 +1,28 @@
 <html>
   <head>
     <title>Spelling Bee Training</title>
-    <style>
-      #textbox {display: block;}
-      #progress {font-weight: bold;}
-      .incorrect {
-          font-weight: bold;
-          color: #8B0000;
-      }
-      .formfield * {
-          vertical-align: top;
-      }
-      .bottom {
-          position: fixed;
-          bottom: 0;
-      }
+    <link type="text/css" rel="stylesheet" href="index.css" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
     </style>
     <meta name="referrer" content="no-referrer">
     <link rel="shortcut icon" href="cute-bee-design_25030-68435.avif">
   </head>
   <body>
-    <h1>Spelling Bee Training</h1>
+    <div id="signedout" hidden>
+      <input id="signin" type="button" value="Sign In">
+    </div>
+    <div id="signedin" hidden>
+      <div id="email"></div>
+      <input id="signout" type="button" value="Sign Out">
+    </div>
+    <div class="header">
+      <h1>Spelling Bee Training</h1>
+    </div>
     <div id="attract">
       Choose word list.
-      <div id="lists">
+      <div>
+        <div id="list-loader" class="lds-ring" hidden><div></div><div></div><div></div><div></div></div>
+        <div id="lists"></div>
       </div>
       <input id="upload" type="button" value="New word list…">
     </div>
@@ -42,6 +41,7 @@
       <ul id="scoreboard">
       </ul>
     </div>
+    <dialog id="firebaseui-auth-container"></dialog>
     <dialog id="dialog">
       <form method="dialog">
         <p class="formfield">
@@ -60,9 +60,9 @@
         </div>
       </form>
     </dialog>
-    <script src="index.js"></script>
     <div class="bottom">
       Icon: <a href="https://www.freepik.com/free-vector/cute-bee-design_138419079.htm#query=bee%20clip%20art&position=9&from_view=keyword&track=ais&uuid=71f97eee-ca7e-4541-9fa2-b847a3c81aca">Image by grmarc</a> on Freepik
     </div>
+    <script src="bundle.js"></script>
   </body>
 </html>

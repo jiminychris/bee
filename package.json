@@ -3,7 +3,11 @@
     "version": "1.0.0",
     "description": "A spelling bee practice app.",
     "scripts": {
-        "server": "http-server -c-1 -p 8000",
+        "clean": "rimraf dist",
+        "build": "npm run clean && npm run lint && webpack && copyfiles index.html index.css cute-bee-design_25030-68435.avif dist",
+        "server": "http-server dist -c-1 -p 8000",
+        "lint": "eslint index.js",
+        "deploy": "firebase deploy",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -24,6 +28,12 @@
         "firebaseui": "^6.1.0"
     },
     "devDependencies": {
-        "http-server": "^14.1.1"
+        "copyfiles": "^2.4.1",
+        "eslint": "^8.56.0",
+        "firebase-tools": "^13.3.1",
+        "http-server": "^14.1.1",
+        "rimraf": "^5.0.5",
+        "webpack": "^5.90.3",
+        "webpack-cli": "^5.1.4"
     }
 }
