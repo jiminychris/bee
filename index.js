@@ -56,6 +56,9 @@ function shuffleArray(array) {
 
     function loginUiStart() {
         ui.start(`#${FIREBASE_AUTH_CONTAINER_ID}`, {
+            callbacks: {
+                signInSuccessWithAuthResult: () => false,
+            },
             signInOptions: [
                 {
                     provider: firebaseAuth.EmailAuthProvider.PROVIDER_ID,
@@ -296,12 +299,6 @@ function shuffleArray(array) {
     define.onclick = defineWord;
     buttonUpload.onclick = upload;
     buttonQuit.onclick = quit;
-
-    if (firebaseAuth.isSignInWithEmailLink(auth, window.location.href)) {
-        const email = window.prompt("Please provide your email for confirmation");
-        await firebaseAuth.signInWithEmailLink(auth, email, window.location.href);
-        window.history.replaceState(null, "", window.location.pathname);
-    }
 
     firebaseAuth.onAuthStateChanged(auth, onAuthStateChanged, error => {
         console.error(error);
