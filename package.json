@@ -3,9 +3,8 @@
     "version": "1.0.0",
     "description": "A spelling bee practice app.",
     "scripts": {
-        "clean": "rimraf dist",
-        "build": "npm run clean && npm run lint && webpack && copyfiles index.html index.css cute-bee-design_25030-68435.avif dist",
-        "server": "http-server dist -c-1 -p 8000",
+        "build": "npm run lint && webpack",
+        "server": "http-server docs -c-1 -p 8000",
         "lint": "eslint index.js",
         "deploy": "firebase deploy",
         "test": "echo \"Error: no test specified\" && exit 1"
