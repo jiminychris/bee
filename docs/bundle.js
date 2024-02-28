@@ -42536,11 +42536,21 @@ function shuffleArray(array) {
         xhr.send(null);
     }
 
+    function toLowerCaseASCII(s) {
+        return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    }
+
+    function normalize(s) {
+        return toLowerCaseASCII(s)
+            .replace(/[^\w]|_/g, "")
+            .trim();
+    }
+
     function advance() {
         const guess = textbox.value;
         if (guess !== "") {
             textbox.value = "";
-            if (spellings.some(spelling => guess.toLowerCase() === spelling.toLowerCase())) {
+            if (spellings.some(spelling => normalize(guess) === normalize(spelling))) {
                 ++score;
             } else {
                 incorrectWords.push(word);
