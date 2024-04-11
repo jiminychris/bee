@@ -33,7 +33,13 @@
         transform: rotate(360deg);
     }
 }
+#quit-pronounce {float: right};
 #textbox {display: block;}
+#word {
+    font-weight: bold;
+    font-size: 7vw;
+    text-align: center;
+}
 #progress {font-weight: bold;}
 .incorrect {
     font-weight: bold;

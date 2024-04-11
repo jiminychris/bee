@@ -15,6 +15,9 @@ const app = firebaseApp.initializeApp({
 
 const FIREBASE_AUTH_CONTAINER_ID = "firebaseui-auth-container";
 
+const PRONOUNCE = "PRONOUNCE";
+const PRACTICE = "PRACTICE";
+
 const auth = firebaseAuth.initializeAuth(app, {
     persistence: [firebaseAuth.indexedDBLocalPersistence, firebaseAuth.browserLocalPersistence],
 });
@@ -29,12 +32,18 @@ function shuffleArray(array) {
     }
 }
 (async function() {
+    const pronounceElement = document.getElementById("pronounce");
+    const previousButton = document.getElementById("previous");
+    const nextButton = document.getElementById("next");
+    const quitPronounce = document.getElementById("quit-pronounce");
+    const definitionLink = document.getElementById("definition-link");
+    const wordElement = document.getElementById("word");
     const listLoader = document.getElementById("list-loader");
     const audio = document.getElementById("audio");
     const dialog = document.getElementById("dialog");
     const lists = document.getElementById("lists");
     const attract = document.getElementById("attract");
-    const play = document.getElementById("play");
+    const practice = document.getElementById("practice");
     const buttonUpload = document.getElementById("upload");
     const textbox = document.getElementById("textbox");
     const submit = document.getElementById("submit");
@@ -85,12 +94,13 @@ function shuffleArray(array) {
         scoreboard.prepend(li);
     }
     
-    function chooseList(l) {
+    function chooseList(l, mode) {
         wordList = l;
         words = l.words;
         attract.hidden = true;
-        play.hidden = false;
-        initialize();
+        pronounceElement.hidden = mode != PRONOUNCE;
+        practice.hidden = mode != PRACTICE;
+        initialize(mode);
     }
 
     function parseWords(x) {
@@ -98,7 +108,8 @@ function shuffleArray(array) {
     }
 
     function quit() {
-        play.hidden = true;
+        practice.hidden = true;
+        pronounceElement.hidden = true;
         attract.hidden = false;
     }
 
@@ -110,14 +121,17 @@ function shuffleArray(array) {
         return button;
     }
 
-    function createSelectButton(wordList) {
-        return createButton("Select", () => chooseList(wordList));
+    function createSelectButtons(wordList) {
+        return [
+            createButton("Pronounce", () => chooseList(wordList, PRONOUNCE)),
+            createButton("Practice", () => chooseList(wordList, PRACTICE)),
+        ];
     }
 
     function createWordListEntry(wordList, additionalButtons = []) {
         const block = document.createElement("div");
         const listName = document.createTextNode(wordList.name);
-        const buttons = [createSelectButton(wordList)].concat(additionalButtons);
+        const buttons = createSelectButtons(wordList).concat(additionalButtons);
         buttons.forEach(button => block.appendChild(button));
         block.appendChild(listName);
         lists.appendChild(block);
@@ -232,18 +246,49 @@ function shuffleArray(array) {
         say(word);
     }
 
-    function initialize() {
-        scoreboard.innerHTML = "";
-        index = score = 0;
-        incorrectWords = [];
+    function pronounce() {
+        r = randomizer[index];
+        spellings = words[r].split("|");
+        word = spellings[0];
+        wordElement.textContent = word;
+        definitionLink.href = `https://www.merriam-webster.com/dictionary/${word}`;
+    }
+
+    function initialize(mode) {
         randomizer = Array.from(Array(words.length).keys());
         shuffleArray(randomizer);
-        submit.onclick = advance;
-        repeat.hidden = false;
-        define.hidden = false;
-        refine.hidden = true;
-        populate();
-        textbox.focus();
+        index = 0;
+        if (mode === PRACTICE) {
+            score = 0;
+            scoreboard.innerHTML = "";
+            incorrectWords = [];
+            submit.onclick = advance;
+            repeat.hidden = false;
+            define.hidden = false;
+            refine.hidden = true;
+            populate();
+            textbox.focus();
+        } else if (mode === PRONOUNCE) {
+            pronounce();
+        }
+    }
+
+    function previous() {
+        if (index > 0) {
+            index--;
+            pronounce();
+        } else {
+            alert("Beginning of word list.");
+        }
+    }
+
+    function next() {
+        if (index + 1 < randomizer.length) {
+            index++;
+            pronounce();
+        } else {
+            alert("End of word list.");
+        }
     }
 
     function signOut() {
@@ -308,7 +353,9 @@ function shuffleArray(array) {
     repeat.onclick = sayWord;
     define.onclick = defineWord;
     buttonUpload.onclick = upload;
-    buttonQuit.onclick = quit;
+    buttonQuit.onclick = quitPronounce.onclick = quit;
+    nextButton.onclick = next;
+    previousButton.onclick = previous;
 
     firebaseAuth.onAuthStateChanged(auth, onAuthStateChanged, error => {
         console.error(error);

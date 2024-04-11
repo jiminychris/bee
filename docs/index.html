@@ -28,7 +28,7 @@
           </div>
           <input id="upload" type="button" value="New word list…">
         </div>
-        <div id="play" hidden>
+        <div id="practice" hidden>
           <input id="textbox" autocorrect="off" spellcheck="false">
           <audio id="audio"></audio>
           <div>
@@ -42,6 +42,15 @@
           <p id="progress"></p>
           <ul id="scoreboard">
           </ul>
+        </div>
+        <div id="pronounce" hidden>
+          <div id="word"></div>
+          <div>
+            <input id="previous" type="button" value="<<">
+            <input id="next" type="button" value=">>">
+            <input id="quit-pronounce" type="button" value="Quit">
+          </div>
+          <a target="_blank" id="definition-link">Define</a>
         </div>
         <dialog id="firebaseui-auth-container"></dialog>
         <dialog id="dialog">
