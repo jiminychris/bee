@@ -42601,7 +42601,7 @@ function shuffleArray(array) {
         definitionLink.href = `https://www.merriam-webster.com/dictionary/${word}`;
     }
 
-    function initialize(mode) {
+    function initialize(mode=PRACTICE) {
         randomizer = Array.from(Array(words.length).keys());
         shuffleArray(randomizer);
         index = 0;
@@ -42644,12 +42644,12 @@ function shuffleArray(array) {
 
     function reset() {
         words = wordList.words;
-        initialize();
+        initialize(PRACTICE);
     }
 
     function refinedReset() {
         words = incorrectWords;
-        initialize();
+        initialize(PRACTICE);
     }
 
     async function handleDialogAddClose(e) {
